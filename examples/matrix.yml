@@ -1,0 +1,18 @@
+version: 1
+targets:
+  baseline:
+    command: node
+    args: [servers/reference-server.mjs, --port, '43101', --profile, baseline]
+    cwd: .
+    url: http://127.0.0.1:43101/mcp
+    recordHttp: true
+    maxResponseBytes: 4194304
+  candidate:
+    command: node
+    args: [servers/reference-server.mjs, --port, '43102', --profile, candidate]
+    cwd: .
+    url: http://127.0.0.1:43102/mcp
+    recordHttp: true
+    maxResponseBytes: 4194304
+cases:
+  - ../corpus/result-shape/search-empty-regression.yml

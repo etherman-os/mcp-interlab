@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22, 24]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck, test, and build
+        run: pnpm check
+
+      - name: Validate bundled corpus
+        run: pnpm interlab corpus list
+
+      - name: Install packed CLI in a clean directory
+        if: matrix.node-version == 24
+        shell: bash
+        run: |
+          pnpm --filter mcp-interlab pack --pack-destination "$RUNNER_TEMP"
+          tarball=$(find "$RUNNER_TEMP" -maxdepth 1 -name 'mcp-interlab-*.tgz' -print -quit)
+          test -n "$tarball"
+          npm install --global "$tarball"
+          cd "$RUNNER_TEMP"
+          mcp-interlab corpus list
+
+      - name: Run intentional divergence smoke test
+        shell: bash
+        run: |
+          set +e
+          pnpm interlab run examples/matrix.yml --output "$RUNNER_TEMP/mcp-interlab-smoke.json"
+          status=$?
+          set -e
+          test "$status" -eq 1
+          pnpm interlab report "$RUNNER_TEMP/mcp-interlab-smoke.json" --format markdown > "$RUNNER_TEMP/mcp-interlab-smoke.md"

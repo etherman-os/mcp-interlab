@@ -1,0 +1,14 @@
+version: 1
+id: tool-error-polarity
+title: Tool failures retain isError polarity
+description: Detects a failure returned as a successful tool result.
+expectation: differential
+tags: [tools, errors]
+category: error-semantics
+sources:
+  - url: https://github.com/openai/openai-agents-python/issues/879
+operations:
+  - id: fail
+    method: tools/call
+    params: { name: error_probe, arguments: {} }
+compare: { ignorePaths: [], unorderedPaths: [] }

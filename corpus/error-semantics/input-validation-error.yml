@@ -1,0 +1,14 @@
+version: 1
+id: input-validation-error-surface
+title: Invalid tool input is surfaced consistently
+description: Compares tool-level isError with a JSON-RPC InvalidParams response.
+expectation: regression
+tags: [tools, validation]
+category: error-semantics
+sources:
+  - url: https://github.com/modelcontextprotocol/typescript-sdk/issues/1956
+operations:
+  - id: invalid-call
+    method: tools/call
+    params: { name: validation_probe, arguments: { count: 0 } }
+compare: { ignorePaths: [], unorderedPaths: [] }

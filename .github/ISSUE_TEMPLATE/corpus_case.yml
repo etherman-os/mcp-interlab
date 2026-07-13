@@ -1,0 +1,94 @@
+name: Propose a corpus case
+description: Propose an evidence-backed MCP interoperability or regression fixture.
+title: 'corpus: '
+labels: [corpus, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A strong corpus case is public, deterministic, and small enough for upstream maintainers to reproduce. Read the corpus workflow in `CONTRIBUTING.md` first. Suspected vulnerabilities must be reported privately instead.
+
+  - type: textarea
+    id: targets
+    attributes:
+      label: Compared targets
+      description: List server/SDK names, exact versions or commit SHAs, transport, and negotiated MCP protocol version.
+      placeholder: |
+        baseline: SDK A 1.2.3, commit ..., Streamable HTTP, protocol 2025-11-25
+        candidate: SDK B 4.5.6, commit ..., Streamable HTTP, protocol 2025-11-25
+    validations:
+      required: true
+
+  - type: dropdown
+    id: expectation
+    attributes:
+      label: Case intent
+      options:
+        - Regression
+        - Specification control
+        - Differential behavior without a settled canonical result
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Difference category
+      options:
+        - protocol
+        - schema-acceptance
+        - result-shape
+        - error-semantics
+        - lifecycle
+        - timeout
+        - Unsure
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Primary source
+      description: Link the relevant MCP specification text, upstream issue, pull request, or changelog.
+      placeholder: https://github.com/owner/project/issues/123
+    validations:
+      required: true
+
+  - type: textarea
+    id: divergence
+    attributes:
+      label: Observed divergence
+      description: Describe the baseline and candidate observations and why the difference matters.
+    validations:
+      required: true
+
+  - type: textarea
+    id: case
+    attributes:
+      label: Minimal case YAML
+      description: Include the smallest known operation sequence and narrowly scoped compare rules.
+      render: yaml
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction evidence
+      description: Provide repeat count, exit code, minimized operation count, and a short redacted diff. A public reproduction repository is welcome.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Corpus checks
+      options:
+        - label: The case reproduces deterministically against exact, named targets.
+          required: true
+        - label: The fixture is original or license-compatible with MIT redistribution.
+          required: true
+        - label: The case and evidence contain no secrets, personal data, proprietary payloads, or private URLs.
+          required: true
+        - label: This proposal is not a security vulnerability under coordinated disclosure.
+          required: true

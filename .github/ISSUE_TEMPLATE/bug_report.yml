@@ -1,0 +1,92 @@
+name: Bug report
+description: Report a reproducible problem in the runner, diff, minimizer, artifact, or CLI.
+title: 'bug: '
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve MCP Interlab. Do not include credentials, private MCP payloads, or unreviewed target logs. Report security-sensitive findings through the private process in `SECURITY.md`.
+
+  - type: input
+    id: version
+    attributes:
+      label: MCP Interlab version
+      description: Provide a released version or commit SHA.
+      placeholder: 0.1.0 or abc1234
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Include Node.js, pnpm, operating system, and architecture.
+      placeholder: Node 22.13.0, pnpm 11.12.0, Ubuntu 24.04, x64
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Matrix or case validation
+        - Target startup or cleanup
+        - MCP execution
+        - Normalization or diff
+        - Minimization
+        - Report or artifact
+        - CLI or exit code
+        - Corpus tooling
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the command and the smallest redacted matrix/case needed to reproduce the problem.
+      placeholder: |
+        pnpm interlab run reproduction/matrix.yml --case example
+
+        ```yaml
+        # redacted matrix and case
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the exact error or a short, redacted output excerpt.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Explain the observable result you expected and why.
+    validations:
+      required: true
+
+  - type: textarea
+    id: artifact
+    attributes:
+      label: Redacted artifact or additional context
+      description: Drag in a reviewed artifact if it is safe to publish, or link a minimal reproduction repository. Artifacts can contain MCP payloads, HTTP transcripts, and target stdout/stderr.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I reproduced this against the current default branch.
+          required: true
+        - label: I reviewed every attachment and removed secrets, personal data, and private URLs.
+          required: true
+        - label: This report does not describe a security vulnerability.
+          required: true

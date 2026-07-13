@@ -1,0 +1,21 @@
+version: 1
+targets:
+  typescript-sdk-1.29.0:
+    command: node
+    args: [servers/sdk-typescript.mjs, --port, '43201']
+    cwd: .
+    url: http://127.0.0.1:43201/mcp
+    startupTimeoutMs: 15000
+    requestTimeoutMs: 10000
+
+  python-sdk-1.27.2:
+    command: uv
+    args: [run, --script, servers/sdk-python.py, --port, '43202']
+    cwd: .
+    url: http://127.0.0.1:43202/mcp
+    startupTimeoutMs: 30000
+    requestTimeoutMs: 10000
+
+cases:
+  - cases/sdk-structured-output.yml
+  - cases/sdk-capability-advertisement.yml

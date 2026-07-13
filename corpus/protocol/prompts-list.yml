@@ -1,0 +1,11 @@
+version: 1
+id: empty-prompts-list
+title: Empty prompt lists interoperate
+description: A control case expected to remain equivalent.
+expectation: spec
+tags: [prompts, control]
+sources:
+  - url: https://modelcontextprotocol.io/specification/2025-11-25/server/prompts
+operations:
+  - { id: prompts, method: prompts/list }
+compare: { ignorePaths: [], unorderedPaths: [] }

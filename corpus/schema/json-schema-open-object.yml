@@ -1,0 +1,15 @@
+version: 1
+id: json-schema-open-object
+title: Omitted additionalProperties keeps objects open
+description: Detects implementations that silently reject an undeclared property.
+expectation: regression
+tags: [tools, json-schema]
+category: schema-acceptance
+sources:
+  - url: https://github.com/modelcontextprotocol/java-sdk/issues/584
+  - url: https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1613
+operations:
+  - id: open-object
+    method: tools/call
+    params: { name: open_object_probe, arguments: { known: yes, extra: accepted-by-schema } }
+compare: { ignorePaths: [], unorderedPaths: [] }

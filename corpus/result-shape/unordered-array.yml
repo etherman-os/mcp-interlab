@@ -1,0 +1,14 @@
+version: 1
+id: unordered-array-equivalence
+title: Explicitly unordered arrays compare as sets
+description: Demonstrates opt-in array ordering normalization.
+expectation: spec
+tags: [normalization, arrays]
+sources: []
+operations:
+  - id: order
+    method: tools/call
+    params: { name: order_probe, arguments: {} }
+compare:
+  ignorePaths: [/observations/0/value/content]
+  unorderedPaths: [/observations/0/value/structuredContent/items]

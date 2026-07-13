@@ -1,0 +1,13 @@
+version: 1
+id: ordered-array-change
+title: Array order changes remain meaningful by default
+description: Verifies that semantic normalization does not sort arrays implicitly.
+expectation: differential
+tags: [normalization, arrays]
+category: result-shape
+sources: []
+operations:
+  - id: order
+    method: tools/call
+    params: { name: order_probe, arguments: {} }
+compare: { ignorePaths: [], unorderedPaths: [] }

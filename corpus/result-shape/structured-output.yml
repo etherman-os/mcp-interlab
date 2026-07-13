@@ -1,0 +1,14 @@
+version: 1
+id: structured-output-wire-truth
+title: Structured output survives serialization
+description: Detects loss of structuredContent while text content remains intact.
+expectation: regression
+tags: [tools, structured-content]
+category: result-shape
+sources:
+  - url: https://github.com/modelcontextprotocol/typescript-sdk/issues/2464
+operations:
+  - id: structured
+    method: tools/call
+    params: { name: structured_probe, arguments: {} }
+compare: { ignorePaths: [], unorderedPaths: [] }

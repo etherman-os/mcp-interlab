@@ -1,0 +1,11 @@
+version: 1
+id: tool-discovery-control
+title: Tool discovery schemas remain equivalent
+description: A control case that catches accidental schema drift in fixture targets.
+expectation: spec
+tags: [tools, control]
+sources:
+  - url: https://modelcontextprotocol.io/specification/2025-11-25/server/tools
+operations:
+  - { id: discover, method: tools/list }
+compare: { ignorePaths: [], unorderedPaths: [] }

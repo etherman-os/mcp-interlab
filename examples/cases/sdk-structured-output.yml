@@ -1,0 +1,24 @@
+version: 1
+id: official-sdk-structured-output
+title: Official TypeScript and Python SDKs return equivalent structured content
+description: Compares deterministic semantic output while ignoring non-semantic SDK representation details.
+expectation: differential
+tags: [tools, structured-content, cross-sdk]
+category: result-shape
+sources:
+  - url: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/1.29.0
+    note: TypeScript SDK version used by the baseline target.
+  - url: https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.27.2
+    note: Python SDK version used by the candidate target.
+operations:
+  - id: summarize
+    method: tools/call
+    params:
+      name: summarize
+      arguments: { topic: MCP, limit: 2 }
+compare:
+  ignorePaths:
+    - /initialization
+    - /observations/0/value/content
+    - /observations/0/value/isError
+  unorderedPaths: []

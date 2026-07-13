@@ -1,0 +1,19 @@
+version: 1
+id: official-sdk-capability-advertisement
+title: Official TypeScript and Python SDKs advertise different capabilities
+description: Preserves initialization differences while excluding operation results from this protocol-focused case.
+expectation: differential
+tags: [protocol, capabilities, cross-sdk]
+category: protocol
+sources:
+  - url: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/1.29.0
+    note: TypeScript SDK version used by the baseline target.
+  - url: https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.27.2
+    note: Python SDK version used by the candidate target.
+operations:
+  - id: discover
+    method: tools/list
+compare:
+  ignorePaths:
+    - /observations
+  unorderedPaths: []

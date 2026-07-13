@@ -1,0 +1,40 @@
+version: 1
+id: search-empty-regression
+title: Successful search unexpectedly returns no items
+description: A long session that should minimize to one search call with a small valid input.
+expectation: regression
+tags: [tools, minimizer, demo]
+category: result-shape
+sources: []
+operations:
+  - { id: discover, method: tools/list }
+  - id: warmup-1
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-one } }
+  - id: warmup-2
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-two } }
+  - id: warmup-3
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-three } }
+  - id: warmup-4
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-four } }
+  - id: warmup-5
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-five } }
+  - id: warmup-6
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-six } }
+  - id: warmup-7
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-seven } }
+  - id: warmup-8
+    method: tools/call
+    params: { name: echo, arguments: { value: warmup-eight } }
+  - id: search
+    method: tools/call
+    params:
+      name: search
+      arguments: { query: typescript, limit: 10, noise: remove-me }
+compare: { ignorePaths: [], unorderedPaths: [] }

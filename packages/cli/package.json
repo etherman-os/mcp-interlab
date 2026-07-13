@@ -1,0 +1,55 @@
+{
+  "name": "mcp-interlab",
+  "version": "0.1.0",
+  "description": "Find and minimize behavioral differences across MCP implementations",
+  "type": "module",
+  "bin": {
+    "mcp-interlab": "dist/cli.js"
+  },
+  "main": "./dist/cli.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --config tsup.config.ts",
+    "clean": "rm -rf dist",
+    "dev": "tsx src/cli.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "ajv": "8.20.0",
+    "commander": "15.0.0",
+    "yaml": "2.9.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@mcp-interlab/core": "workspace:*",
+    "tsup": "8.5.1"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etherman-os/mcp-interlab.git"
+  },
+  "homepage": "https://github.com/etherman-os/mcp-interlab#readme",
+  "bugs": {
+    "url": "https://github.com/etherman-os/mcp-interlab/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "differential-testing",
+    "conformance",
+    "testing"
+  ],
+  "author": "",
+  "types": "./dist/cli.d.ts"
+}

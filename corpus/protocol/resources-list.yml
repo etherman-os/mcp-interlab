@@ -1,0 +1,11 @@
+version: 1
+id: empty-resources-list
+title: Empty resource lists interoperate
+description: A control case expected to remain equivalent.
+expectation: spec
+tags: [resources, control]
+sources:
+  - url: https://modelcontextprotocol.io/specification/2025-11-25/server/resources
+operations:
+  - { id: resources, method: resources/list }
+compare: { ignorePaths: [], unorderedPaths: [] }
