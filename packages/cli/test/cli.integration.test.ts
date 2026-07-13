@@ -12,6 +12,7 @@ const execFileAsync = promisify(execFile);
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const tsx = resolve(repository, 'node_modules/.bin/tsx');
 const cli = resolve(repository, 'packages/cli/src/cli.ts');
+const cliTsconfig = resolve(repository, 'packages/cli/tsconfig.json');
 const referenceServer = resolve(repository, 'examples/servers/reference-server.mjs');
 let directory: string;
 
@@ -29,7 +30,7 @@ async function freePort(): Promise<number> {
 
 async function runCli(args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
   try {
-    const result = await execFileAsync(tsx, [cli, ...args], {
+    const result = await execFileAsync(tsx, ['--tsconfig', cliTsconfig, cli, ...args], {
       cwd: repository,
       env: { ...process.env, NO_COLOR: '1' },
       timeout: 20_000
@@ -111,7 +112,7 @@ cases:
     const divergent = await runCli(['run', divergentMatrix, '--output', divergentArtifact]);
     const broken = await runCli(['run', brokenMatrix, '--output', join(directory, 'broken.json')]);
 
-    expect(equivalent.code).toBe(0);
+    expect(equivalent.code, equivalent.stderr).toBe(0);
     expect(equivalent.stdout).toContain('1 equivalent, 0 divergent');
     expect(divergent.code).toBe(1);
     expect(divergent.stdout).toContain('REGRESSION FOUND');
@@ -134,7 +135,7 @@ cases:
   it('lists the bundled source corpus and rejects invalid usage with exit 2', async () => {
     const corpus = await runCli(['corpus', 'list', '--dir', resolve(repository, 'corpus')]);
     const invalid = await runCli(['corpus', 'unknown']);
-    expect(corpus.code).toBe(0);
+    expect(corpus.code, corpus.stderr).toBe(0);
     expect(corpus.stdout).toContain('10 case(s), 0 invalid');
     expect(invalid.code).toBe(2);
   });
